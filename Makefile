@@ -2,7 +2,7 @@
 
 # Compilation variables
 CC = g++
-CFLAGS = -Wno-unused-parameter -Wall -Wextra -pedantic -g -O3 -std=c++17
+CFLAGS = -Wno-unused-parameter -Wall -Wextra -pedantic -g -std=c++17
 
 build: p1 p2 p3 p4
 
@@ -28,7 +28,7 @@ run-p4: p4
 	./p4
 
 clean:
-	rm -f p1 p2 p3 p4
+	rm -f p1 p2 p3 p4 cpp.errors java.errors
 
 # Automatic coding style, in my personal style
 beauty:

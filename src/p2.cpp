@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <vector>
 
 #define MAX_COST 10000
@@ -10,18 +9,6 @@ struct Edge {
     int target;
     int cost;
 };
-
-// Prints the contents of an adjency list
-void printAdjency(const std::vector<Edge>& adjency) {
-    for (auto& edge : adjency) {
-        std::stringstream ss;
-        ss << edge.source;
-        ss << " -> " << edge.target;
-        ss << " cost : " << edge.cost;
-        ss << "\n";
-        std::cout << ss.str();
-    }
-}
 
 long int BellmanFord(const std::vector<Edge> adjency, const int vertexCount,
                      const int sourceVertex, const int targetVertex) {
