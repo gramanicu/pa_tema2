@@ -57,7 +57,7 @@ int main() {
     for (auto& edge : adjency) {
         int source, target, cost;
         in >> source >> target >> cost;
-        
+
         // The nodes are indexed starting from 0 internally
         edge = {source - 1, target - 1, cost};
     }
