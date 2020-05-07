@@ -87,6 +87,8 @@ int main() {
         int start, end;
         double cost;
         in >> start >> end >> cost;
+        
+        // The nodes are indexed starting from 0 internally 
         adjency[start - 1].push_back({start - 1, end - 1, cost});
     }
 
