@@ -7,13 +7,10 @@ struct Point {
     int x, y;
 
     Point() {}
-    Point(int x, int y): x(x), y(y) {}
+    Point(int x, int y) : x(x), y(y) {}
 };
 
-enum Orientation {
-    VERTICAL,
-    HORIZONTAL
-};
+enum Orientation { VERTICAL, HORIZONTAL };
 
 int dx[] = {0, 1, 0, -1}, dy[] = {1, 0, -1, 0};
 int T, n, movements[MAXN][MAXT];
@@ -37,30 +34,33 @@ void DIE(float points, const char *msg) {
 
 int chr_to_dir(char c) {
     switch (c) {
-        case 'N': return 0;
-        case 'E': return 1;
-        case 'S': return 2;
-        case 'V': return 3;
+        case 'N':
+            return 0;
+        case 'E':
+            return 1;
+        case 'S':
+            return 2;
+        case 'V':
+            return 3;
     }
 
-    assert (false);
+    assert(false);
     return -1;
 }
 
 void read_input(FILE *file_in) {
-    assert (fscanf(file_in, "%d %d", &T, &n) == 2);
-    assert (fscanf(file_in, "%d %d", &end_point.x, &end_point.y) == 2);
-    assert (fscanf(file_in, "%d %d %d", &e1, &e2, &e3) == 3);
+    assert(fscanf(file_in, "%d %d", &T, &n) == 2);
+    assert(fscanf(file_in, "%d %d", &end_point.x, &end_point.y) == 2);
+    assert(fscanf(file_in, "%d %d %d", &e1, &e2, &e3) == 3);
     for (int i = 1; i <= n; i++)
-        assert (fscanf(file_in, "%d %d %d %d",
-                       &positions[i][0].first.x, &positions[i][0].first.y,
-                       &positions[i][0].second.x, &positions[i][0].second.y) == 4);
+        assert(fscanf(file_in, "%d %d %d %d", &positions[i][0].first.x,
+                      &positions[i][0].first.y, &positions[i][0].second.x,
+                      &positions[i][0].second.y) == 4);
     for (int i = 1; i <= n; i++) {
         char movement[MAXT];
-        assert (fscanf(file_in, "%s\n", movement) == 1);
-        assert ((int) strlen(movement) == T);
-        for (int j = 0; j < T; j++)
-            movements[i][j] = chr_to_dir(movement[j]);
+        assert(fscanf(file_in, "%s\n", movement) == 1);
+        assert((int)strlen(movement) == T);
+        for (int j = 0; j < T; j++) movements[i][j] = chr_to_dir(movement[j]);
     }
 }
 
@@ -73,25 +73,23 @@ pair<Point, Point> move_segm(pair<Point, Point> &segm, int dir) {
 }
 
 int segm_length(pair<Point, Point> &segm) {
-    if (segm.first.x == segm.second.x)
-        return abs(segm.first.y - segm.second.y);
-    assert (segm.first.y == segm.second.y);
+    if (segm.first.x == segm.second.x) return abs(segm.first.y - segm.second.y);
+    assert(segm.first.y == segm.second.y);
     return abs(segm.first.x - segm.second.x);
 }
 
 int segm_orientation(pair<Point, Point> &segm) {
-    if (segm.first.x == segm.second.x)
-        return VERTICAL;
+    if (segm.first.x == segm.second.x) return VERTICAL;
     return HORIZONTAL;
 }
 
 Point rel_pos_to_abs_pos(pair<Point, Point> &segm, int offset) {
     if (segm.first.x == segm.second.x) {
-        assert (segm.first.y < segm.second.y);
+        assert(segm.first.y < segm.second.y);
         return Point(segm.first.x, segm.first.y + offset);
     }
-    assert (segm.first.y == segm.second.y);
-    assert (segm.first.x < segm.second.x);
+    assert(segm.first.y == segm.second.y);
+    assert(segm.first.x < segm.second.x);
     return Point(segm.first.x + offset, segm.first.y);
 }
 
@@ -104,7 +102,7 @@ int get_jump_offset(int s_idx1, int offset1, int s_idx2, int t) {
             return p.y - s2.first.y;
         return -1;
     }
-    assert (s2.first.y == s2.second.y);
+    assert(s2.first.y == s2.second.y);
     if (p.y == s2.first.y && s2.first.x <= p.x && p.x <= s2.second.x)
         return p.x - s2.first.x;
     return -1;
@@ -123,7 +121,7 @@ void check_moves(vector<pair<char, int>> &moves, int expected_effort) {
 
     int segm_idx = 1, offset = 0;
     int t = 0, effort = 0;
-    for (auto &m: moves) {
+    for (auto &m : moves) {
         int segm_lg = segm_length(positions[segm_idx][0]);
         int segm_or = segm_orientation(positions[segm_idx][0]);
         int new_segm_idx;
@@ -132,16 +130,22 @@ void check_moves(vector<pair<char, int>> &moves, int expected_effort) {
             case 'H':
                 effort += e1;
                 break;
-            
+
             case 'N':
             case 'S':
                 if (segm_or == HORIZONTAL) {
-                    sprintf(msg, "WA (mutare N/S pe un bustean orizontal la timpul %d)", t);
+                    sprintf(
+                        msg,
+                        "WA (mutare N/S pe un bustean orizontal la timpul %d)",
+                        t);
                     DIE(0, msg);
                 }
                 offset += (m.first == 'N' ? 1 : -1);
                 if (offset < 0 || offset > segm_lg) {
-                    sprintf(msg, "WA (mutare peste capatul busteanului la timpul %d)", t);
+                    sprintf(
+                        msg,
+                        "WA (mutare peste capatul busteanului la timpul %d)",
+                        t);
                     DIE(0, msg);
                 }
                 effort += e2;
@@ -150,12 +154,17 @@ void check_moves(vector<pair<char, int>> &moves, int expected_effort) {
             case 'E':
             case 'V':
                 if (segm_or == VERTICAL) {
-                    sprintf(msg, "WA (mutare E/V pe un bustean vertical at time %d)", t);
+                    sprintf(msg,
+                            "WA (mutare E/V pe un bustean vertical at time %d)",
+                            t);
                     DIE(0, msg);
                 }
                 offset += (m.first == 'E' ? 1 : -1);
                 if (offset < 0 || offset > segm_lg) {
-                    sprintf(msg, "WA (mutare peste capatul busteanului la timpul %d)", t);
+                    sprintf(
+                        msg,
+                        "WA (mutare peste capatul busteanului la timpul %d)",
+                        t);
                     DIE(0, msg);
                 }
                 effort += e2;
@@ -188,9 +197,10 @@ void check_moves(vector<pair<char, int>> &moves, int expected_effort) {
         DIE(0, msg);
     }
 
-    assert (effort >= expected_effort);
+    assert(effort >= expected_effort);
     if (effort > expected_effort) {
-        sprintf(msg, "WA (effort is higher than reported %d vs %d)", effort, expected_effort);
+        sprintf(msg, "WA (effort is higher than reported %d vs %d)", effort,
+                expected_effort);
         DIE(0, msg);
     }
 }
@@ -222,18 +232,19 @@ int main(int argc, char **argv) {
     }
 
     long long sol_out, sol_ref;
-    assert (fscanf(file_ref, "%lld", &sol_ref) == 1);
+    assert(fscanf(file_ref, "%lld", &sol_ref) == 1);
     if (fscanf(file_out, "%lld", &sol_out) <= 0)
         DIE(0, "Fisierul de iesire nu contine energia minima pe prima linie.");
 
     if (sol_out != sol_ref) {
         char c[100];
 
-        #ifdef ONLINE_JUDGE
+#ifdef ONLINE_JUDGE
         sprintf(c, "WA (energie minima incorecta)");
-        #else
-        sprintf(c, "WA (energie minima incorecta %lld vs %lld)", sol_out, sol_ref);
-        #endif
+#else
+        sprintf(c, "WA (energie minima incorecta %lld vs %lld)", sol_out,
+                sol_ref);
+#endif
 
         DIE(0, c);
     }
@@ -244,8 +255,7 @@ int main(int argc, char **argv) {
     if (fscanf(file_out, "%d\n", &out_m) <= 0)
         DIE(0, "WA (numar de mutari negasit)");
 
-    if (out_m <= 0 || out_m > T)
-        DIE(0, "WA (numar de mutari invalid)");
+    if (out_m <= 0 || out_m > T) DIE(0, "WA (numar de mutari invalid)");
 
     char move[50];
     vector<pair<char, int>> moves;

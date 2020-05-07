@@ -1,9 +1,8 @@
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cmath>
 using namespace std;
-
 
 void DIE(float points, const char *msg) {
     FILE *f;
@@ -19,7 +18,6 @@ void DIE(float points, const char *msg) {
     exit(0);
 }
 
-
 int main(int argc, char **argv) {
     if (argc != 3) {
         DIE(0, "Usage ./verif problem_name test_points");
@@ -31,8 +29,7 @@ int main(int argc, char **argv) {
 
     float points = atof(argv[2]);
 
-    FILE *file_out = fopen(name, "rt"),
-         *file_ref = fopen("res.ok", "rt");
+    FILE *file_out = fopen(name, "rt"), *file_ref = fopen("res.ok", "rt");
 
     if (file_ref == NULL) {
         DIE(0, "Nu exista fisierul de referinta");
@@ -46,17 +43,19 @@ int main(int argc, char **argv) {
     while (fscanf(file_ref, "%lf", &answer_ref) == 1) {
         int ret = fscanf(file_out, "%lf", &answer_out);
         if (ret < 0) {
-            DIE(0, "Fisierul de iesire nu contine un numar corespunzator de numere");
+            DIE(0,
+                "Fisierul de iesire nu contine un numar corespunzator de "
+                "numere");
         }
 
         if (fabs(answer_ref - answer_out) > 1e-3) {
             char c[100];
 
-            #ifdef ONLINE_JUDGE
+#ifdef ONLINE_JUDGE
             sprintf(c, "WA ");
-            #else
+#else
             sprintf(c, "WA %.5lf vs %.5lf", answer_out, answer_ref);
-            #endif
+#endif
 
             DIE(0, c);
         }

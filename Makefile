@@ -16,15 +16,15 @@ p3: src/p3.cpp
 	$(CC) -std=c++17 src/p3.cpp -o p3 $(CFLAGS)
 
 p4: src/p4.cpp
-	$(CC) -std=c++17 src/bonus.cpp -o p4 $(CFLAGS)
+	$(CC) -std=c++17 src/p4.cpp -o p4 $(CFLAGS)
 
-run-p1:
+run-p1: p1
 	./p1
-run-p2:
+run-p2: p2
 	./p2
-run-p3:
+run-p3: p3
 	./p3
-run-p4:
+run-p4: p4
 	./p4
 
 clean:
@@ -33,4 +33,3 @@ clean:
 # Automatic coding style, in my personal style
 beauty:
 	clang-format -i -style=file */*.cpp
-	clang-format -i -style=file */*.hpp
